@@ -62,7 +62,11 @@ object AssetsDownloader {
                     val size = value.asJsonObject.get("size").asLong
                     val hash = value.asJsonObject.get("hash").asString
                     val assetPath = keyDir.resolve(hash.substring(0, 2)).resolve(hash)
-                    val assetUrl = URI.create("https://resources.download.minecraft.net/${hash.substring(0, 2)}/$hash")
+
+                    val assetUrl = URI.create(
+                        value.asJsonObject?.get("url")?.asString ?:
+                        "https://resources.download.minecraft.net/${hash.substring(0, 2)}/$hash"
+                    )
 
                     project.cachingDownload(
                         assetUrl,
